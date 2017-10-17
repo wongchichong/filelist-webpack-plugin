@@ -1,6 +1,6 @@
 {
   "name": "filelist-webpack-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "filelist-webpack-plugin",
   "main": "index.js",
   "scripts": {
