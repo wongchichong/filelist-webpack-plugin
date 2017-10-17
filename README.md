@@ -26,7 +26,7 @@ module.exports = {
 
 <h2 align="center">Output</h2>
 filelist.json
-```
+```js
 [
     {
         "2017-01-01": [
