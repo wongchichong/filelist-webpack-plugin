@@ -8,13 +8,14 @@ class FlielistPlugin {
     constructor(options) {
         this.filePath = path.join(rootPath, options.filePath);
         this.exportPath = options.exportPath;
-        this.format = options.format ? options.format : 'default'
+        this.format = options.format ? options.format : 'default';
+        this.exclude = options.exclude;
+        this.concat = options.concat;
     }
 
     apply(compiler) {
-
         compiler.plugin('emit', (compilation, callback) => {
-            var fileList = this.getFileList(this.filePath, []);
+            var fileList = this.getFileList(this.filePath, this.concat ? this.concat : []);
             fileList = JSON.stringify(fileList, null, 4);
 
             compilation.assets[this.exportPath] = {
@@ -31,31 +32,32 @@ class FlielistPlugin {
 
     }
 
-    join(p1, p2) {
-        return p1 + "/" + p2;
+    replace(p1) {
+        return p1.replace(this.filePath, ".").replace(/\\/g, "/"); //.replace("\\\\", "/");
     }
 
     getFileList(dir, filelist) {
         var files = fs.readdirSync(dir);
-
+        const { exclude, format } = this;
         filelist = filelist || [];
 
-        if (this.format == 'default')
+        if (format == 'default')
             files.forEach(file => {
-                var filePath = this.join(dir, file);
+                var filePath = path.join(dir, file);
                 if (fs.statSync(filePath).isDirectory())
                     filelist.push({ [file]: this.getFileList(filePath, []) });
-                else
+                else if (!exclude || !file.match(exclude))
                     filelist.push(file);
-
             });
-        else if (this.format == 'array')
+        else if (format == 'array')
             files.forEach(file => {
-                var filePath = this.join(dir, file);
+                let rf = this.replace(path.join(dir, file));
+
+                var filePath = path.join(dir, file);
                 if (fs.statSync(filePath).isDirectory())
                     filelist.push(...this.getFileList(filePath, []));
-                else
-                    filelist.push(this.join(dir, file));
+                else if (!exclude || !rf.match(exclude))
+                    filelist.push(rf);
             });
 
         return filelist;
