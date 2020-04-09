@@ -44,3 +44,30 @@ filelist.json
 ]
 ```
 
+##Usage
+```js
+const filelistWebpackPlugin = require('filelist-webpack-plugin');
+
+module.exports = {
+
+  plugins: [
+    new filelistWebpackPlugin({
+        format: 'array',
+        filePath: '../folderName',
+        exportPath: '../exportPath/folderName/filelist.json'
+    }),
+  ]
+}
+```
+
+##Output
+filelist.json
+
+```js
+[
+  "./2017-01-01/2017-01-01.md",
+  "./2017-01-02/2017-01-02.md",
+  "./2017-01-03/2017-01-03.md",
+]
+```
+
