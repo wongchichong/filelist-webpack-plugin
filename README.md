@@ -53,6 +53,10 @@ module.exports = {
   plugins: [
     new filelistWebpackPlugin({
         format: 'array',
+        //include others
+        concat: [".", "./", "./scripts/app.js"],
+        //files to exclude regex
+        exclude: /filelist|robots/,        
         filePath: '../folderName',
         exportPath: '../exportPath/folderName/filelist.json'
     }),
