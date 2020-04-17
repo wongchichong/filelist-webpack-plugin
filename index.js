@@ -15,9 +15,20 @@ class FlielistPlugin {
 
     apply(compiler) {
         compiler.plugin('emit', (compilation, callback) => {
+<<<<<<< HEAD
+            var fileList = Array.from(new Set(this.getFileList(this.filePath, this.concat ? this.concat : [])));
+            fileList = JSON.stringify(fileList, null, 4);
+
+            if (fs.existsSync(this.exportPath)) {
+                console.log("Deleting " + this.exportPath);
+                fs.unlink(this.exportPath);
+            }
+
+=======
             var fileList = this.getFileList(this.filePath, this.concat ? this.concat : []);
             fileList = JSON.stringify(fileList, null, 4);
 
+>>>>>>> 350de9496b7632cc959c60b32068062b8e199d64
             compilation.assets[this.exportPath] = {
                 source: function () {
                     return fileList;
@@ -44,6 +55,10 @@ class FlielistPlugin {
         if (format == 'default')
             files.forEach(file => {
                 var filePath = path.join(dir, file);
+<<<<<<< HEAD
+
+=======
+>>>>>>> 350de9496b7632cc959c60b32068062b8e199d64
                 if (fs.statSync(filePath).isDirectory())
                     filelist.push({ [file]: this.getFileList(filePath, []) });
                 else if (!exclude || !file.match(exclude))
@@ -52,8 +67,13 @@ class FlielistPlugin {
         else if (format == 'array')
             files.forEach(file => {
                 let rf = this.replace(path.join(dir, file));
+<<<<<<< HEAD
+                var filePath = path.join(dir, file);
+
+=======
 
                 var filePath = path.join(dir, file);
+>>>>>>> 350de9496b7632cc959c60b32068062b8e199d64
                 if (fs.statSync(filePath).isDirectory())
                     filelist.push(...this.getFileList(filePath, []));
                 else if (!exclude || !rf.match(exclude))
